@@ -55,8 +55,8 @@ window.LineupRenderer = (() => {
       return value < 6 * 60 ? value + 24 * 60 : value;
     };
     const allShows = day.stages.flatMap(stage => stage.shows);
-    const startMinute = Math.floor(Math.min(...allShows.map(show => toMinutes(show[0]))) / 30) * 30;
-    const endMinute = Math.ceil(Math.max(...allShows.map(show => toMinutes(show[1]))) / 30) * 30;
+    const startMinute = Math.floor(Math.min(...allShows.map(show => toMinutes(show.start))) / 30) * 30;
+    const endMinute = Math.ceil(Math.max(...allShows.map(show => toMinutes(show.end))) / 30) * 30;
     const canvasWidth = (endMinute - startMinute) * scale;
     const formatTime = minute => `${String(Math.floor((minute % 1440) / 60)).padStart(2,"0")}:${String(minute % 60).padStart(2,"0")}`;
     const genres = window.LINEUP.genreGroups || {};
@@ -76,14 +76,15 @@ window.LineupRenderer = (() => {
             <div class="stage-track">
               ${ticks.join("")}
               ${stage.shows.map(show => {
-                const start = toMinutes(show[0]);
-                let end = toMinutes(show[1]);
+                const start = toMinutes(show.start);
+                let end = toMinutes(show.end);
                 if (end <= start) end += 1440;
                 const left = (start - startMinute) * scale;
                 const width = (end - start) * scale;
-                const genre = show[3] || genreOf(show[2]);
-                const tooltip = `${show[2]} · ${show[0]}–${show[1]} · ${genre}`;
-                return `<div class="show-block ${genreClass(genre)}" style="left:${left}px;width:${width}px" data-tooltip="${escapeHtml(tooltip)}" tabindex="0"><span class="show-block__time">${show[0]}–${show[1]}</span><strong>${escapeHtml(show[2])}</strong></div>`;
+                const genre = show.genre || genreOf(show.artist);
+                const tooltip = `${show.artist} · ${show.start}–${show.end} · ${genre}`;
+                const favoriteClass = show.favorite ? "is-favorite" : "";
+                return `<div class="show-block ${genreClass(genre)} ${favoriteClass}" style="left:${left}px;width:${width}px" data-tooltip="${escapeHtml(tooltip)}" tabindex="0"><span class="show-block__time">${show.start}–${show.end}</span><strong>${escapeHtml(show.artist)}</strong></div>`;
               }).join("")}
             </div>
           </article>`).join("")}
