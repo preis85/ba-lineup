@@ -22,7 +22,7 @@ window.LINEUP = {
     ]},
     { id: "qui", label: "Quinta-feira", date: "06 AGO", stages: [
       { name: "Main Stages (Sea Shepherd / Marshall)", shows: [["10:30","11:00","CRYPTIC SHIFT"],["11:05","11:35","BAEST"],["11:40","12:15","THE CASUALTIES"],["12:20","12:55","DECEASED"],["13:00","13:35","SANGUISUGABOGG"],["13:40","14:15","ILLDISPOSED"],["14:20","15:05","HOCICO"],["15:10","15:55","KITTIE"],["16:00","16:45","BLEED FROM WITHIN"],["16:50","17:35","THY ART IS MURDER"],["17:40","18:45","WALTARI with Symphonic Orchestra"],["18:50","19:50","SEPTICFLESH"],["19:55","21:00","BODY COUNT feat. Ice-T"],["21:05","22:10","AMORPHIS"],["22:15","23:25","CARPENTER BRUT"],["23:30","00:30","ALCEST"],["00:35","01:30","DEICIDE"]] },
-      { name: "Palco Obscure", shows: [["14:00","14:35","CASTLE RAT"],["15:05","15:45","¡III NIÑO!"],["16:15","16:55","DEATH ANGEL", null, true],["17:25","18:05","BLACKBRAID"],["18:35","19:20","TERROR"],["19:50","20:35","DRACONIAN"],["21:05","21:55","IMMOLATION"],["22:25","23:15","AURA NOIR"],["23:45","00:30","FU MANCHU"],["01:00","01:40","FRONT LINE ASSEMBLY"],["02:10","02:50","TORMENTOR"]] },
+      { name: "Palco Obscure", shows: [["14:00","14:35","CASTLE RAT"],["15:05","15:45","¡III NIÑO!"],["16:15","16:55","DEATH ANGEL", null, 2],["17:25","18:05","BLACKBRAID", null, 1],["18:35","19:20","TERROR"],["19:50","20:35","DRACONIAN"],["21:05","21:55","IMMOLATION"],["22:25","23:15","AURA NOIR"],["23:45","00:30","FU MANCHU"],["01:00","01:40","FRONT LINE ASSEMBLY"],["02:10","02:50","TORMENTOR"]] },
       { name: "Palco Octagon", shows: [["17:30","18:00","SLOPE"],["18:30","19:15","PSYCHONAUT"],["19:45","20:30","WYATT E."],["21:00","21:50","LVMEN"],["22:30","23:30","ANTIMATTER"]] }
     ]},
     { id: "sex", label: "Sexta-feira", date: "07 AGO", stages: [
@@ -38,11 +38,11 @@ window.LINEUP = {
   ]
 };
 
-/* O 5º item opcional de cada show marca o favorito: [início, fim, banda, gênero, true]. */
+/* O 5º item opcional de cada show define a prioridade: 0 = sem prioridade, 1 = baixa, 2 = alta. */
 window.LINEUP.days.forEach(day => {
   day.stages.forEach(stage => {
     stage.shows = stage.shows.map(show => ({
-      start: show[0], end: show[1], artist: show[2], genre: show[3], favorite: show[4] ?? false
+      start: show[0], end: show[1], artist: show[2], genre: show[3], priority: Number.isInteger(show[4]) ? show[4] : 0
     }));
   });
 });

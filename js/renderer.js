@@ -83,8 +83,8 @@ window.LineupRenderer = (() => {
                 const width = (end - start) * scale;
                 const genre = show.genre || genreOf(show.artist);
                 const tooltip = `${show.artist} · ${show.start}–${show.end} · ${genre}`;
-                const favoriteClass = show.favorite ? "is-favorite" : "";
-                return `<div class="show-block ${genreClass(genre)} ${favoriteClass}" style="left:${left}px;width:${width}px" data-tooltip="${escapeHtml(tooltip)}" tabindex="0"><span class="show-block__time">${show.start}–${show.end}</span><strong>${escapeHtml(show.artist)}</strong></div>`;
+                const priorityClass = show.priority === 2 ? "is-priority-high" : show.priority === 1 ? "is-priority-low" : "";
+                return `<div class="show-block ${genreClass(genre)} ${priorityClass}" style="left:${left}px;width:${width}px" data-tooltip="${escapeHtml(tooltip)}" tabindex="0"><span class="show-block__time">${show.start}–${show.end}</span><strong>${escapeHtml(show.artist)}</strong></div>`;
               }).join("")}
             </div>
           </article>`).join("")}
