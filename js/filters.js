@@ -7,7 +7,7 @@ window.LineupFilters = (() => {
       .filter(stage => selectedStages.size === 0 || selectedStages.has(stage.name))
       .map(stage => ({
         ...stage,
-        shows: stage.shows.filter(show => !needle || normalize(show.artist).includes(needle))
+        shows: stage.shows.filter(show => !needle || normalize(show.band).includes(needle))
       }))
       .filter(stage => stage.shows.length);
   }

@@ -60,7 +60,7 @@ window.LineupRenderer = (() => {
     const canvasWidth = (endMinute - startMinute) * scale;
     const formatTime = minute => `${String(Math.floor((minute % 1440) / 60)).padStart(2,"0")}:${String(minute % 60).padStart(2,"0")}`;
     const genres = window.LINEUP.genreGroups || {};
-    const genreOf = artist => Object.keys(genres).find(genre => genres[genre].includes(artist)) || "Unknown";
+    const genreOf = band => Object.keys(genres).find(genre => genres[genre].includes(band)) || "Unknown";
     const genreClass = genre => `genre-${genre.toLowerCase().replace(/[^a-z]/g, "")}`;
     const ticks = [];
     for (let minute = startMinute; minute <= endMinute; minute += 30) {
@@ -81,10 +81,11 @@ window.LineupRenderer = (() => {
                 if (end <= start) end += 1440;
                 const left = (start - startMinute) * scale;
                 const width = (end - start) * scale;
-                const genre = show.genre || genreOf(show.artist);
-                const tooltip = `${show.artist} · ${show.start}–${show.end} · ${genre}`;
+                const genre = show.genre || genreOf(show.band);
+                const tooltip = `${show.band} · ${show.start}–${show.end} · ${genre}`;
                 const priorityClass = show.priority === 2 ? "is-priority-high" : show.priority === 1 ? "is-priority-low" : "";
-                return `<div class="show-block ${genreClass(genre)} ${priorityClass}" style="left:${left}px;width:${width}px" data-tooltip="${escapeHtml(tooltip)}" tabindex="0"><span class="show-block__time">${show.start}–${show.end}</span><strong>${escapeHtml(show.artist)}</strong></div>`;
+                const favoriteClass = show.favorite ? "is-favorite" : "";
+                return `<div class="show-block ${genreClass(genre)} ${priorityClass} ${favoriteClass}" style="left:${left}px;width:${width}px" data-tooltip="${escapeHtml(tooltip)}" tabindex="0"><span class="show-block__time">${show.start}–${show.end}</span><strong>${escapeHtml(show.band)}</strong></div>`;
               }).join("")}
             </div>
           </article>`).join("")}
